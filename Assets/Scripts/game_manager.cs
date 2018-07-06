@@ -21,7 +21,6 @@ public class game_manager : MonoBehaviour {
 	public static int n_points = 100;
 	// Victory menu
 	public victory_menu v_menu;
-	public Text cl_text;
 	private static string[] words = {"almost got it!", "hotter", "hot", "cold", "colder", "Arctica!"};
 
 	// Creating matrices of constants
@@ -33,6 +32,10 @@ public class game_manager : MonoBehaviour {
 	// [a,3] corresponds to the stored value of the correct amplitude
 	private float[,] cons_u = new float[degree * 2,4];
 	private float[,] cons_c = new float[degree * 2,4];
+    // Camera object
+    private Camera cm;
+    // Determine whether the game is on
+    private bool inGame;
 
 	// Use this for initialization
 	void Awake () {
@@ -41,6 +44,8 @@ public class game_manager : MonoBehaviour {
 		user = FindObjectOfType<line_user> ();
 		// Initiates and sets users line to a graphical object of type line_user
 		comp = FindObjectOfType<line_computer> ();
+        // Initiates and sets camera object
+        cm = Camera.main.GetComponent<Camera>();
 
 		// Sets the parameters for the sin(x) function
 		// Sets the initial amplitude to be one
@@ -90,13 +95,12 @@ public class game_manager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		float err2 = MaxDif (comp, user);
-		ChangeText (err2);
-		err = err2;
+		err = MaxDif (comp, user);
+        ChangeBackground(err);
 		if (err < max_error | Input.GetKeyDown (KeyCode.Space)) {
 			v_menu.Victory ();
 			Randomize();
-			cl_text.text = "Let's start";
+            cm.backgroundColor = new Color(0f, 1f, 0f, 1f);
 			user.cons = cons_u;
 			user.mainSlider.value = (cons_u[0, 1] + 2.5F) / 5F;
 			user.Redraw (cons_u);
@@ -137,20 +141,12 @@ public class game_manager : MonoBehaviour {
 		return max;
 	}
 
-	public void ChangeText (float err2){
-		if (err2 < err) {
-			if (err2 < max_error * 4)
-				cl_text.text = words [0];
-			else
-				cl_text.text = words [1];
-		} else if (err2 > err) {
-			if (err2 > max_error * 40)
-				cl_text.text = words [5];
-			else
-				cl_text.text = words [4];
-		} else {
-		}
-		err = err2;
+	// Sets background color based on the answer
+    public void ChangeBackground(float err)
+    {   
+        float p_error = (max_error + 0.7f) / (err + 0.7f);
+        Debug.Log(err + " / " + p_error);
+        cm.backgroundColor = new Color(1 - p_error, p_error, 0f, 1f);
 	}
 }
 
