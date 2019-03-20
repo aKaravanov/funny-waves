@@ -76,7 +76,11 @@ public class line_user : MonoBehaviour {
 		cons[chg_n, 3] = 5 * value - 2.5F;
 	}
 
-	public void Set_y(float [,] cons_in){
+    public void Redraw() {
+        Draw(y);
+    }
+
+    public void Set_y(float [,] cons_in){
 		y = new float[n_points + 1];
 		for (int x = 0; x <= n_points; x++) {
 			y [x] = cons_in [0, 0] * cons_in [0, 1] * Mathf.Sin ((float)x * pointSpacing + cons_in [0, 2]) + cons_in [1, 0] * cons_in [1, 1] * Mathf.Cos ((float)x * pointSpacing + cons_in [1, 2]);

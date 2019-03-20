@@ -91,22 +91,24 @@ public class game_manager : MonoBehaviour {
 
 		// Sets up the computer line
 		comp.Set_y (cons_c);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		err = MaxDif (comp, user);
+        inGame = true;
+    }
+
+    // Update is called once per frame
+    void Update() {
+        err = MaxDif(comp, user);
         ChangeBackground(err);
-		if (err < max_error | Input.GetKeyDown (KeyCode.Space)) {
-			v_menu.Victory ();
+        if (err < max_error | Input.GetKeyDown (KeyCode.Space)) {
+            inGame = false;
+            v_menu.Victory ();
 			Randomize();
             cm.backgroundColor = new Color(0f, 1f, 0f, 1f);
 			user.cons = cons_u;
 			user.mainSlider.value = (cons_u[0, 1] + 2.5F) / 5F;
 			user.Redraw (cons_u);
 			comp.Redraw (cons_c);
-			FindObjectOfType<changer> ().Back ();
-		}
+            // FindObjectOfType<changer> ().Back ();
+        }
 	}
 
 	// Chooses new coefficients
