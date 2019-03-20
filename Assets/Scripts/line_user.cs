@@ -29,10 +29,11 @@ public class line_user : MonoBehaviour {
 	void Start () {
 		chg_n = 0;
 		line_u = GetComponent<LineRenderer> ();
-		line_u.material = new Material (Shader.Find ("Particles/Additive"));
-		line_u.startColor = Color.white;
-		line_u.endColor = Color.white;
-		line_u.positionCount = n_points + 1;
+		line_u.material = new Material(Shader.Find("Sprites/Default"));
+        // line_u.startColor = Color.white;
+        // line_u.endColor = Color.white;
+        line_u.SetColors(Color.white, Color.white);
+        line_u.positionCount = n_points + 1;
 		Draw (y);
 	}
 		
