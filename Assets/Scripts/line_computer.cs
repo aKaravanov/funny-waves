@@ -21,11 +21,10 @@ public class line_computer : MonoBehaviour {
 
 	void Start () {
 		line_c = GetComponent<LineRenderer> ();
-		line_c.material = new Material(Shader.Find("Sprites/Default"));
-        // line_c.startColor = Color.grey;
-		// line_c.endColor = Color.grey;
-        line_c.SetColors(Color.grey, Color.grey);
-        line_c.positionCount = n_points + 1;
+		line_c.material = new Material (Shader.Find ("Particles/Additive"));
+		line_c.startColor = Color.grey;
+		line_c.endColor = Color.grey;
+		line_c.positionCount = n_points + 1;
 		Draw (y);
 	}
 
@@ -34,12 +33,7 @@ public class line_computer : MonoBehaviour {
 		Draw (y);
 	}
 
-    public void Redraw()
-    {
-        Draw(y);
-    }
-
-    public void Set_y(float [,] cons){
+	public void Set_y(float [,] cons){
 		y = new float[n_points + 1];
 		for (int x = 0; x <= n_points; x++) {
 			y [x] = cons [0, 0] * cons [0, 1] * Mathf.Sin ((float)x * pointSpacing + cons [0, 2]) + cons [1, 0] * cons [1, 1] * Mathf.Cos ((float)x * pointSpacing + cons [1, 2]);
